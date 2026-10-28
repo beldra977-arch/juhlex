@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jhulex Learning Zone</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#0b1020;
+  --panel:#151d33;
+  --text:#f4f6ff;
+  --muted:#9ca9c9;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+  --green:#34d399;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:'Poppins',sans-serif;min-height:100vh;
+  background-image:radial-gradient(ellipse at 10% 0%,#31205c 0,transparent 35%),
+  radial-gradient(ellipse at 90% 70%,#07384b 0,transparent 35%);
+}
+button{font-family:inherit;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+  width:245px;flex-shrink:0;padding:27px 18px;
+  background:#0b1020dc;border-right:1px solid #ffffff12;
+  position:sticky;top:0;height:100vh;
+}
+.logo{font-size:21px;font-weight:800;margin:0 0 8px}
+.logo span{color:var(--cyan)}
+.brand-sub{font-size:11px;color:var(--muted);margin-bottom:35px}
+.profile{
+  padding:16px;border-radius:17px;background:#ffffff08;
+  border:1px solid #ffffff12;margin-bottom:28px;
+}
+.avatar{
+  width:45px;height:45px;display:grid;place-items:center;
+  border-radius:15px;background:linear-gradient(135deg,var(--purple),var(--cyan));
+  font-size:23px;margin-bottom:10px;
+}
+.profile strong{display:block}
+.profile small{color:var(--muted)}
+.nav-label{font-size:10px;letter-spacing:2px;color:#71809f;margin:22px 10px 10px}
+.nav{
+  display:flex;gap:12px;align-items:center;width:100%;
+  padding:13px;border:0;background:transparent;color:#aab6d2;
+  text-align:left;border-radius:12px;margin:4px 0;font-size:13px;
+}
+.nav.active,.nav:hover{background:linear-gradient(100deg,#8b5cf629,#22d3ee12);color:white}
+.nav.active{border:1px solid #8b5cf64a}
+.sidebar-footer{position:absolute;bottom:24px;font-size:11px;color:#687795}
+main{flex:1;min-width:0;padding:30px 35px 60px;max-width:1450px;margin:auto;width:100%}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:30px}
+.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:2px;font-weight:700}
+h1{font-size:clamp(25px,3vw,39px);line-height:1.2;margin:8px 0}
+h2{font-size:23px;margin:0 0 8px}
+h3{font-size:16px;margin:0 0 9px}
+p{line-height:1.8}
+.muted{color:var(--muted);font-size:13px}
+.tag{
+  padding:9px 14px;border-radius:30px;border:1px solid #ffffff18;
+  color:#d5dfff;background:#ffffff08;font-size:12px;white-space:nowrap;
+}
+.page{display:none;animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.hero{
+  position:relative;overflow:hidden;padding:35px;border-radius:25px;
+  background:linear-gradient(115deg,#4c1d95,#28265e 55%,#07566b);
+  border:1px solid #ffffff20;margin-bottom:22px;
+}
+.hero:after{content:"🚀";position:absolute;right:6%;top:20%;font-size:clamp(65px,10vw,120px);animation:float 3s ease-in-out infinite;filter:drop-shadow(0 10px 20px #0005)}
+@keyframes float{50%{transform:translateY(-13px) rotate(5deg)}}
+.hero p{max-width:520px;color:#e0e7ff;font-size:13px}
+.primary,.secondary,.answer-btn{
+  border:0;border-radius:12px;padding:12px 18px;font-weight:700;font-size:12px;
+}
+.primary{background:linear-gradient(100deg,var(--purple),#6366f1);color:white;box-shadow:0 5px 20px #8b5cf633}
+.secondary{background:#ffffff0d;border:1px solid #ffffff1b;color:white}
+.hero .primary{margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin:18px 0 28px}
+.card{
+  background:linear-gradient(145deg,#19233b,#11182a);
+  border:1px solid #ffffff12;border-radius:19px;padding:21px;
+  transition:.25s;min-width:0;
+}
+.card:hover{border-color:#8b5cf67a;transform:translateY(-3px)}
+.stat{font-size:29px;font-weight:800;margin:10px 0 2px}
+.icon-box{font-size:26px;margin-bottom:15px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 13px}
+.progress{height:7px;background:#ffffff12;border-radius:20px;overflow:hidden;margin-top:13px}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));transition:width .4s}
+.course-card{display:flex;flex-direction:column;gap:9px}
+.course-card .primary{align-self:flex-start;margin-top:5px}
+.badge{font-size:10px;color:var(--cyan);background:#22d3ee12;border-radius:20px;padding:6px 9px;align-self:flex-start}
+.material{margin-top:15px}
+.lesson{border-left:3px solid var(--purple);padding:10px 0 10px 16px;margin:18px 0}
+.lesson p{font-size:13px;color:#bdc8e1}
+.example{background:#0c1325;border:1px solid #ffffff12;padding:14px;border-radius:12px;font-size:13px;line-height:1.8}
+.quiz-box{max-width:760px;margin:20px auto}
+.question-number{color:var(--cyan);font-size:12px;font-weight:700}
+.question{font-size:21px;font-weight:700;margin:18px 0 23px;line-height:1.5}
+.answers{display:grid;gap:11px}
+.answer-btn{text-align:left;background:#ffffff08;color:#e6eaff;border:1px solid #ffffff15;padding:15px}
+.answer-btn:hover{background:#8b5cf626;border-color:var(--purple)}
+.answer-btn.correct{border-color:var(--green);background:#34d39920}
+.answer-btn.wrong{border-color:#fb7185;background:#fb718520}
+.answer-btn:disabled{cursor:default;transform:none}
+.feedback{margin:15px 0;padding:14px;border-radius:12px;font-size:13px;line-height:1.7}
+.game-arena{
+  text-align:center;max-width:750px;margin:20px auto;
+  background:linear-gradient(145deg,#191c3c,#121a2e);
+  border:1px solid #ffffff16;border-radius:25px;padding:30px 22px;
+}
+.game-icon{font-size:55px;margin:10px}
+.game-question{font-size:21px;font-weight:700;line-height:1.6;margin:20px auto;max-width:580px}
+.game-input{
+  width:100%;max-width:400px;background:#0b1020;border:1px solid #414c6b;
+  color:white;border-radius:12px;padding:14px;font-family:inherit;outline:none;
+}
+.game-input:focus{border-color:var(--cyan)}
+.game-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:15px}
+.game-status{min-height:40px;color:var(--cyan);font-size:13px;line-height:1.7}
+.choices{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0}
+.choice{padding:13px 17px;background:#ffffff0b;border:1px solid #ffffff18;border-radius:12px;color:white;font-family:inherit}
+.choice.selected{border-color:var(--cyan);background:#22d3ee25}
+.achievement{display:flex;align-items:center;gap:14px;margin:12px 0}
+.achievement-icon{font-size:25px;background:#ffffff0b;border-radius:12px;padding:12px}
+footer{text-align:center;color:#677493;font-size:11px;margin-top:45px}
+.mobile-menu{display:none}
+@media(max-width:900px){
+ .sidebar{width:205px;padding:20px 12px}
+ main{padding:25px 20px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+ .layout{display:block}
+ .sidebar{position:relative;width:100%;height:auto;padding:15px;display:block;border-right:0;border-bottom:1px solid #ffffff18}
+ .logo{font-size:18px}.brand-sub{margin-bottom:12px}
+ .profile,.nav-label,.sidebar-footer{display:none}
+ .nav-wrap{display:flex;overflow-x:auto;gap:5px;padding-bottom:3px}
+ .nav{width:auto;white-space:nowrap;padding:10px;font-size:11px}
+ main{padding:22px 14px 40px}
+ .hero{padding:24px 20px}
+ .hero:after{right:5%;top:10%;font-size:65px;opacity:.6}
+ .hero p{max-width:75%}
+ .grid{grid-template-columns:1fr}
+ .topbar{align-items:flex-start}
+ .tag{font-size:10px;padding:8px}
+ .game-arena{padding:24px 14px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="logo">JHULEX<span>.</span>ZONE</div>
+    <div class="brand-sub">LEARN • PLAY • LEVEL UP</div>
+
+    <div class="profile">
+      <div class="avatar">😎</div>
+      <strong>Jhulex</strong>
+      <small>🎮 Calon Master Ilmu</small>
+    </div>
+
+    <div class="nav-label">MENU UTAMA</div>
+    <div class="nav-wrap">
+      <button class="nav active" data-page="home">🏠 Beranda</button>
+      <button class="nav" data-page="materi">📚 Materi</button>
+      <button class="nav" data-page="quiz">🧠 Kuis Pintar</button>
+      <button class="nav" data-page="game">🎮 Mini Games</button>
+      <button class="nav" data-page="prestasi">🏆 Prestasi</button>
+    </div>
+    <div class="sidebar-footer">Dibuat spesial untuk Jhulex 💜</div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">YOUR PERSONAL LEARNING SPACE</div>
+        <h1 id="greeting">Halo, Jhulex! 👋</h1>
+        <div class="muted">Saatnya belajar sambil bersenang-senang.</div>
+      </div>
+      <div class="tag">⚡ <span id="levelTop">Level 1</span></div>
+    </div>
+
+    <!-- BERANDA -->
+    <section class="page active" id="home">
+      <div class="hero">
+        <div class="eyebrow">WELCOME TO YOUR NEXT LEVEL</div>
+        <h1>Belajar itu bisa<br>SEKEREN GAME! ✨</h1>
+        <p>Hai Jhulex! Asah otakmu, pelajari hal baru, kumpulkan poin, dan buktikan bahwa kamu bisa menjadi master pengetahuan.</p>
+        <button class="primary" onclick="showPage('game')">Mulai Petualangan 🚀</button>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="icon-box">⭐</div>
+          <div class="muted">Total XP Kamu</div>
+          <div class="stat" id="xp">0 XP</div>
+          <div class="muted">Terus bermain untuk naik level!</div>
+        </div>
+        <div class="card">
+          <div class="icon-box">🎯</div>
+          <div class="muted">Jawaban Benar</div>
+          <div class="stat" id="correctCount">0</div>
+          <div class="muted">Jawaban benar dari semua game.</div>
+        </div>
+        <div class="card">
+          <div class="icon-box">🔥</div>
+          <div class="muted">Game Diselesaikan</div>
+          <div class="stat" id="gamesDone">0</div>
+          <div class="muted">Selesaikan tantanganmu!</div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <h2>🎒 Pilih Petualanganmu</h2>
+        <span class="muted">Belajar sesuai mood</span>
+      </div>
+      <div class="grid">
+        <div class="card course-card">
+          <div class="icon-box">💻</div>
+          <span class="badge">TEKNOLOGI</span>
+          <h3>Jago Dunia IT</h3>
+          <div class="muted">Kenali komputer, internet, coding, dan teknologi digital.</div>
+          <button class="primary" onclick="openLesson(0)">Belajar Sekarang</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">🧠</div>
+          <span class="badge">ASAH OTAK</span>
+          <h3>Kuis Pengetahuan</h3>
+          <div class="muted">Uji kemampuanmu lewat pertanyaan pilihan ganda.</div>
+          <button class="primary" onclick="showPage('quiz')">Mulai Kuis</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">🔐</div>
+          <span class="badge">LOGIKA</span>
+          <h3>Tebak-Tebakan</h3>
+          <div class="muted">Pecahkan teka-teki dan kumpulkan XP sebanyak-banyaknya.</div>
+          <button class="primary" onclick="showPage('game')">Main Game</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📈 Perjalanan Belajarmu</h3>
+        <div class="muted">Kemajuan menuju level berikutnya</div>
+        <div class="progress"><div id="homeProgress"></div></div>
+        <p class="muted" id="progressText">0 XP terkumpul. Yuk, mulai tantangan pertamamu!</p>
+      </div>
+    </section>
+
+    <!-- MATERI -->
+    <section class="page" id="materi">
+      <div class="eyebrow">KNOWLEDGE LIBRARY</div>
+      <h1>Zona Pengetahuan 📚</h1>
+      <p class="muted">Pilih materi, pahami konsepnya, lalu uji kemampuanmu.</p>
+      <div class="grid">
+        <div class="card course-card">
+          <div class="icon-box">💻</div><h3>Dasar Komputer</h3>
+          <p class="muted">Hardware, software, dan brainware.</p>
+          <button class="primary" onclick="openLesson(0)">Pelajari Materi</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">🌐</div><h3>Internet & Jaringan</h3>
+          <p class="muted">Mengenal internet, IP, dan jaringan komputer.</p>
+          <button class="primary" onclick="openLesson(1)">Pelajari Materi</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">👨‍💻</div><h3>Dasar Pemrograman</h3>
+          <p class="muted">Mengenal algoritma, variabel, dan coding.</p>
+          <button class="primary" onclick="openLesson(2)">Pelajari Materi</button>
+        </div>
+      </div>
+      <div class="card material" id="lessonBox">
+        <div class="eyebrow">PILIH MATERI DI ATAS</div>
+        <h2>Siap Menambah Ilmu, Jhulex?</h2>
+        <p class="muted">Materi singkat dengan contoh sederhana supaya lebih mudah dipahami.</p>
+      </div>
+    </section>
+
+    <!-- KUIS -->
+    <section class="page" id="quiz">
+      <div class="eyebrow">BRAIN TRAINING</div>
+      <h1>Kuis Pintar 🧠</h1>
+      <p class="muted">Jawab pertanyaan dengan benar untuk mendapatkan 10 XP setiap soal.</p>
+      <div class="card quiz-box">
+        <div class="question-number" id="qNumber">SOAL 1</div>
+        <div class="progress"><div id="quizProgress"></div></div>
+        <div class="question" id="question">Siap menguji kemampuanmu, Jhulex?</div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="quizFeedback" style="display:none"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+          <button class="primary" id="nextQuestion" onclick="nextQuiz()" style="display:none">Soal Berikutnya →</button>
+          <button class="secondary" id="restartQuiz" onclick="startQuiz()">Ulangi Kuis ↻</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section class="page" id="game">
+      <div class="eyebrow">ARCADE MODE</div>
+      <h1>Mini Games 🎮</h1>
+      <p class="muted">Pilih game favoritmu. Setiap tantangan adalah kesempatan untuk naik level!</p>
+      <div class="grid">
+        <div class="card course-card">
+          <div class="icon-box">🔍</div><h3>Tebak-Tebakan</h3>
+          <div class="muted">Cari jawaban dari teka-teki yang menguji logika.</div>
+          <button class="primary" onclick="startRiddle()">Main Sekarang</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">⚡</div><h3>Tebak Angka</h3>
+          <div class="muted">Tebak angka rahasia dari 1 sampai 20. Kamu punya 5 kesempatan!</div>
+          <button class="primary" onclick="startNumber()">Main Sekarang</button>
+        </div>
+        <div class="card course-card">
+          <div class="icon-box">🧩</div><h3>Kuis Kilat</h3>
+          <div class="muted">Jawab pertanyaan pengetahuan umum untuk mendapatkan XP.</div>
+          <button class="primary" onclick="showPage('quiz')">Main Sekarang</button>
+        </div>
+      </div>
+
+      <div class="game-arena">
+        <div class="eyebrow" id="gameType">JHULEX ARCADE</div>
+        <div class="game-icon" id="gameIcon">🎮</div>
+        <h2 id="gameTitle">Pilih game dan mulai petualangan!</h2>
+        <div class="game-question" id="gameQuestion">Siapkah kamu menantang otakmu hari ini?</div>
+        <div id="gameArea">
+          <button class="primary" onclick="startRiddle()">Mulai Tebak-Tebakan 🚀</button>
+        </div>
+        <div class="game-status" id="gameStatus"></div>
+      </div>
+    </section>
+
+    <!-- PRESTASI -->
+    <section class="page" id="prestasi">
+      <div class="eyebrow">YOUR ACHIEVEMENTS</div>
+      <h1>Hall of Fame 🏆</h1>
+      <p class="muted">Semua pencapaian Jhulex dalam satu tempat.</p>
+      <div class="grid">
+        <div class="card">
+          <div class="icon-box">⭐</div><div class="muted">Total XP</div>
+          <div class="stat" id="xp2">0</div>
+        </div>
+        <div class="card">
+          <div class="icon-box">🎯</div><div class="muted">Jawaban Benar</div>
+          <div class="stat" id="correct2">0</div>
+        </div>
+        <div class="card">
+          <div class="icon-box">🎮</div><div class="muted">Tantangan Selesai</div>
+          <div class="stat" id="games2">0</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>🎖️ Koleksi Lencana</h2>
+        <div class="achievement">
+          <div class="achievement-icon">🌱</div>
+          <div><strong>Pemula Hebat</strong><div class="muted">Bergabung di Jhulex Learning Zone.</div></div>
+          <span class="badge">DIBUKA</span>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🔥</div>
+          <div><strong>Brain Warrior</strong><div class="muted">Jawab 5 soal dengan benar.</div></div>
+          <span class="badge" id="badgeBrain">TERKUNCI</span>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🚀</div>
+          <div><strong>Master Belajar</strong><div class="muted">Kumpulkan 100 XP.</div></div>
+          <span class="badge" id="badgeMaster">TERKUNCI</span>
+        </div>
+        <div class="achievement">
+          <div class="achievement-icon">🧩</div>
+          <div><strong>Pemecah Teka-Teki</strong><div class="muted">Selesaikan 3 tantangan game.</div></div>
+          <span class="badge" id="badgeGame">TERKUNCI</span>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>💡 Pesan untuk Jhulex</h3>
+        <p>“Tidak harus menjadi yang paling pintar untuk memulai. Kamu hanya perlu terus belajar untuk menjadi lebih baik dari dirimu yang kemarin.” 💜</p>
+      </div>
+    </section>
+
+    <footer>© 2026 JHULEX LEARNING ZONE • Belajar asik, masa depan menarik ✨</footer>
+  </main>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let xp = 0, correct = 0, games = 0;
+let quizIndex = 0, quizLocked = false;
+let riddleIndex = 0, riddleLocked = false;
+let secretNumber = 0, guessesLeft = 5, numberLocked = true;
+let quizSession = 0;
+
+const lessons = [
+{
+ title:"💻 Dasar Komputer",
+ intro:"Komputer adalah perangkat elektronik yang menerima data, mengolahnya, lalu menghasilkan informasi.",
+ parts:[
+  ["1. Hardware (Perangkat Keras)","Hardware adalah bagian komputer yang bisa dilihat dan disentuh, seperti keyboard, mouse, monitor, dan CPU."],
+  ["2. Software (Perangkat Lunak)","Software adalah program yang menjalankan perintah di komputer, contohnya Windows, Linux, Microsoft Word, dan browser."],
+  ["3. Brainware (Pengguna)","Brainware adalah manusia yang menggunakan atau mengelola komputer, seperti programmer, administrator, dan pengguna biasa."]
+ ],
+ example:"Contoh sehari-hari: ketika Jhulex mengetik tugas di laptop, keyboard merupakan hardware, aplikasi pengolah kata merupakan software, dan Jhulex adalah brainware."
+},
+{
+ title:"🌐 Internet & Jaringan",
+ intro:"Jaringan komputer menghubungkan dua atau lebih perangkat supaya bisa bertukar data dan berbagi sumber daya.",
+ parts:[
+  ["1. LAN","Local Area Network menghubungkan perangkat dalam area terbatas, misalnya rumah, laboratorium, atau kantor."],
+  ["2. Internet","Internet adalah jaringan global yang menghubungkan banyak jaringan komputer di seluruh dunia."],
+  ["3. IP Address","IP address adalah alamat logis yang digunakan untuk mengidentifikasi perangkat dalam jaringan IP."]
+ ],
+ example:"Contoh: laptop terhubung ke router Wi-Fi, lalu menggunakan internet untuk membuka website dan mengirim tugas."
+},
+{
+ title:"👨‍💻 Dasar Pemrograman",
+ intro:"Pemrograman adalah proses membuat instruksi yang dapat dijalankan komputer untuk menyelesaikan suatu masalah.",
+ parts:[
+  ["1. Algoritma","Algoritma adalah urutan langkah logis untuk menyelesaikan masalah, seperti langkah membuat mi instan."],
+  ["2. Variabel","Variabel adalah tempat untuk menyimpan nilai atau data, misalnya nama = 'Jhulex'."],
+  ["3. Bahasa Pemrograman","Bahasa seperti JavaScript, Python, PHP, dan Java digunakan untuk menulis instruksi bagi komputer."]
+ ],
+ example:"Contoh JavaScript: let nama = 'Jhulex'; lalu console.log(nama); akan menampilkan nama Jhulex pada console."
+}
+];
+
+function showPage(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ $(name).classList.add("active");
+ document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(name==="prestasi") updateStats();
+}
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+
+function openLesson(i){
+ const l=lessons[i];
+ $("lessonBox").innerHTML=`
+  <div class="eyebrow">MATERI PILIHAN JHULEX</div>
+  <h2>${l.title}</h2>
+  <p>${l.intro}</p>
+  ${l.parts.map(p=>`<div class="lesson"><h3>${p[0]}</h3><p>${p[1]}</p></div>`).join("")}
+  <h3>🌟 Contoh Penerapan</h3>
+  <div class="example">${l.example}</div>
+  <button class="primary" style="margin-top:18px" onclick="addXP(5);showPage('quiz')">Materi Dipahami! +5 XP 🏆</button>
+ `;
+ $("lessonBox").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function updateStats(){
+ $("xp").textContent=xp+" XP";
+ $("xp2").textContent=xp;
+ $("correctCount").textContent=correct;
+ $("correct2").textContent=correct;
+ $("gamesDone").textContent=games;
+ $("games2").textContent=games;
+ let level=Math.floor(xp/50)+1;
+ $("levelTop").textContent="Level "+level;
+ let remainder=xp%50;
+ $("homeProgress").style.width=(remainder/50*100)+"%";
+ $("progressText").textContent=remainder+" / 50 XP menuju Level "+(level+1)+".";
+ $("badgeBrain").textContent=correct>=5?"DIBUKA":"TERKUNCI";
+ $("badgeMaster").textContent=xp>=100?"DIBUKA":"TERKUNCI";
+ $("badgeGame").textContent=games>=3?"DIBUKA":"TERKUNCI";
+}
+function addXP(amount){
+ xp+=amount;
+ updateStats();
+}
+updateStats();
+
+const quizQuestions=[
+ {q:"Bagian komputer yang dapat disentuh disebut...",a:["Software","Hardware","Brainware","Internet"],c:1,e:"Hardware adalah komponen fisik komputer, seperti keyboard, monitor, dan mouse."},
+ {q:"Manakah yang merupakan bahasa pemrograman?",a:["HTML saja","Google Chrome","Python","Wi-Fi"],c:2,e:"Python adalah bahasa pemrograman yang populer untuk belajar coding, otomatisasi, dan pengolahan data."},
+ {q:"Apa fungsi utama RAM?",a:["Menyimpan data sementara saat program berjalan","Mencetak dokumen","Menghubungkan kabel listrik","Menampilkan gambar saja"],c:0,e:"RAM menyimpan data sementara yang sedang digunakan sistem. Isinya umumnya hilang ketika listrik dimatikan."},
+ {q:"LAN biasanya digunakan untuk...",a:["Menghubungkan seluruh planet secara langsung","Menghubungkan perangkat dalam area terbatas","Mengisi baterai laptop","Membuat gambar"],c:1,e:"LAN menghubungkan perangkat di area terbatas seperti rumah, sekolah, atau kantor."},
+ {q:"Manakah contoh perangkat lunak?",a:["Keyboard","Monitor","Mouse","Sistem operasi"],c:3,e:"Sistem operasi seperti Windows dan Linux adalah software."},
+ {q:"Apa kepanjangan CPU?",a:["Central Processing Unit","Computer Personal User","Control Program Utility","Central Power Usage"],c:0,e:"CPU adalah Central Processing Unit, yang menjalankan instruksi dan mengolah data."},
+ {q:"Apa yang dimaksud algoritma?",a:["Perangkat keras komputer","Urutan langkah logis untuk menyelesaikan masalah","Nama jaringan Wi-Fi","Jenis monitor"],c:1,e:"Algoritma adalah langkah-langkah terurut untuk menyelesaikan suatu masalah."},
+ {q:"Apa fungsi browser?",a:["Mengakses halaman web","Mendinginkan CPU","Menambah kapasitas RAM fisik","Mengisi daya laptop"],c:0,e:"Browser seperti Firefox dan Chrome digunakan untuk membuka serta menjelajahi website."},
+ {q:"HTML terutama digunakan untuk...",a:["Memperbaiki motherboard","Menyusun struktur halaman web","Mengatur tegangan listrik","Menghapus virus secara otomatis"],c:1,e:"HTML menyusun struktur konten website, sementara CSS mengatur tampilannya."},
+ {q:"Apa yang dimaksud password kuat?",a:["123456","Nama sendiri saja","Kata sandi panjang dan sulit ditebak","Tanggal lahir saja"],c:2,e:"Gunakan kata sandi unik dan panjang. Aktifkan autentikasi multifaktor jika tersedia."}
+];
+
+function startQuiz(){
+ quizIndex=0;quizLocked=false;quizSession++;
+ renderQuiz();
+}
+function renderQuiz(){
+ const q=quizQuestions[quizIndex];
+ $("qNumber").textContent=`SOAL ${quizIndex+1} DARI ${quizQuestions.length}`;
+ $("quizProgress").style.width=(quizIndex/quizQuestions.length*100)+"%";
+ $("question").textContent=q.q;
+ $("quizFeedback").style.display="none";
+ $("nextQuestion").style.display="none";
+ $("answers").innerHTML="";
+ quizLocked=false;
+ q.a.forEach((ans,i)=>{
+  const btn=document.createElement("button");
+  btn.className="answer-btn";btn.textContent=String.fromCharCode(65+i)+". "+ans;
+  btn.onclick=()=>answerQuiz(i);
+  $("answers").appendChild(btn);
+ });
+}
+function answerQuiz(i){
+ if(quizLocked)return;
+ quizLocked=true;
+ const q=quizQuestions[quizIndex];
+ document.querySelectorAll("#answers button").forEach((b,j)=>{
+  b.disabled=true;
+  if(j===q.c)b.classList.add("correct");
+  if(j===i&&i!==q.c)b.classList.add("wrong");
+ });
+ const good=i===q.c;
+ if(good){correct++;addXP(10);}
+ const fb=$("quizFeedback");
+ fb.style.display="block";
+ fb.style.background=good?"#34d39915":"#fb718515";
+ fb.style.border="1px solid "+(good?"#34d39966":"#fb718566");
+ fb.innerHTML=(good?"✅ <strong>Benar! +10 XP</strong>":"❌ <strong>Belum tepat.</strong>")+"<br>"+q.e;
+ $("nextQuestion").style.display="inline-block";
+ $("nextQuestion").textContent=quizIndex===quizQuestions.length-1?"Lihat Hasil 🏆":"Soal Berikutnya →";
+ updateStats();
+}
+function nextQuiz(){
+ if(!quizLocked)return;
+ if(quizIndex<quizQuestions.length-1){quizIndex++;renderQuiz();}
+ else{
+  $("qNumber").textContent="KUIS SELESAI";
+  $("quizProgress").style.width="100%";
+  $("question").textContent="Keren, Jhulex! 🎉 Kamu menyelesaikan kuis!";
+  $("answers").innerHTML="";
+  $("quizFeedback").style.display="block";
+  $("quizFeedback").innerHTML=`Kamu menyelesaikan ${quizQuestions.length} soal. Jawaban benar akan menambah XP dan kemampuanmu terus berkembang!`;
+  $("nextQuestion").style.display="none";
+  games++;updateStats();
+ }
+}
+startQuiz();
+
+const riddles=[
+ {q:"Aku punya banyak gigi, tetapi tidak bisa menggigit. Apakah aku?",a:["sisir","comb"],hint:"Benda ini digunakan untuk merapikan rambut."},
+ {q:"Semakin banyak kamu mengambil dariku, semakin besar aku. Apakah aku?",a:["lubang","hole"],hint:"Biasanya ada di tanah."},
+ {q:"Aku punya jarum, tetapi tidak bisa menjahit. Apakah aku?",a:["jam","arloji","jam tangan"],hint:"Aku membantu menunjukkan waktu."},
+ {q:"Apa yang selalu naik, tetapi tidak pernah turun?",a:["umur","usia"],hint:"Setiap ulang tahun, hal ini bertambah."},
+ {q:"Aku memiliki kota tanpa rumah, hutan tanpa pohon, dan sungai tanpa air. Apakah aku?",a:["peta","map"],hint:"Aku membantu orang menemukan lokasi."},
+ {q:"Apa yang punya leher tetapi tidak punya kepala?",a:["botol"],hint:"Biasanya dipakai untuk menyimpan minuman."},
+ {q:"Aku bisa berlari tetapi tidak punya kaki. Apakah aku?",a:["air","sungai"],hint:"Aku bisa mengalir."},
+ {q:"Apa yang bisa pecah meski tidak pernah dipegang?",a:["janji"],hint:"Seseorang bisa mengucapkannya."},
+ {q:"Apa yang memiliki banyak tombol tetapi tidak bisa membuka pintu?",a:["keyboard","piano"],hint:"Bisa digunakan untuk mengetik atau bermain musik."},
+ {q:"Aku selalu ada di depanmu, tetapi tidak bisa kamu lihat. Apakah aku?",a:["masa depan"],hint:"Belum terjadi."}
+];
+
+function startRiddle(){
+ riddleIndex=0;riddleLocked=false;
+ $("gameType").textContent="LOGIC CHALLENGE";
+ $("gameIcon").textContent="🔍";
+ $("gameTitle").textContent="Tebak-Tebakan Jhulex";
+ renderRiddle();
+}
+function renderRiddle(){
+ const r=riddles[riddleIndex];
+ riddleLocked=false;
+ $("gameQuestion").textContent=`Teka-teki ${riddleIndex+1}/${riddles.length}: ${r.q}`;
+ $("gameArea").innerHTML=`
+  <input class="game-input" id="riddleAnswer" placeholder="Tulis jawabanmu di sini..." autocomplete="off">
+  <div class="game-actions">
+   <button class="primary" onclick="checkRiddle()">Periksa Jawaban</button>
+   <button class="secondary" onclick="showHint()">Minta Petunjuk 💡</button>
+  </div>
+  <div class="muted">Jawaban tidak membedakan huruf besar dan kecil.</div>`;
+ $("gameStatus").textContent="";
+ $("riddleAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")checkRiddle()});
+}
+function normalize(s){return s.toLowerCase().trim().replace(/[.,!?]/g,"").replace(/\s+/g," ")}
+function checkRiddle(){
+ if(riddleLocked)return;
+ const val=normalize($("riddleAnswer").value);
+ if(!val){$("gameStatus").textContent="Isi jawabanmu dahulu, Jhulex!";return;}
+ const r=riddles[riddleIndex];
+ if(r.a.includes(val)){
+  riddleLocked=true;correct++;addXP(10);
+  $("gameStatus").textContent="🎉 Benar! +10 XP. Hebat, Jhulex!";
+  $("gameArea").innerHTML=`<button class="primary" onclick="nextRiddle()">Teka-teki Berikutnya →</button>`;
+  if(riddleIndex===riddles.length-1){
+   $("gameTitle").textContent="Kamu menyelesaikan semua teka-teki! 🏆";
+   $("gameArea").innerHTML=`<button class="primary" onclick="startRiddle()">Main Lagi ↻</button>`;
+   $("gameStatus").textContent="Luar biasa, Jhulex! Kamu mendapatkan bonus 20 XP.";
+   addXP(20);games++;updateStats();
+  }
+ }else{
+  $("gameStatus").textContent="Belum tepat! Coba lagi, Jhulex. Kamu pasti bisa 💪";
+ }
+}
+function showHint(){
+ $("gameStatus").textContent="💡 Petunjuk: "+riddles[riddleIndex].hint;
+}
+function nextRiddle(){
+ riddleIndex++;
+ if(riddleIndex<riddles.length)renderRiddle();
+}
+
+function startNumber(){
+ secretNumber=Math.floor(Math.random()*20)+1;
+ guessesLeft=5;numberLocked=false;
+ $("gameType").textContent="NUMBER GUESS";
+ $("gameIcon").textContent="⚡";
+ $("gameTitle").textContent="Tebak Angka Rahasia!";
+ $("gameQuestion").textContent="Aku memilih angka 1–20. Bisakah Jhulex menebaknya?";
+ $("gameArea").innerHTML=`
+  <input class="game-input" id="numberAnswer" type="number" min="1" max="20" placeholder="Masukkan angka 1–20">
+  <div class="game-actions">
+   <button class="primary" onclick="checkNumber()">Tebak!</button>
+   <button class="secondary" onclick="startNumber()">Mulai Ulang ↻</button>
+  </div>
+  <div class="muted" id="guessCounter">Kesempatan tersisa: 5</div>`;
+ $("gameStatus").textContent="Pilih angka dan uji keberuntunganmu! 🍀";
+ $("numberAnswer").addEventListener("keydown",e=>{if(e.key==="Enter")checkNumber()});
+}
+function checkNumber(){
+ if(numberLocked)return;
+ const field=$("numberAnswer");
+ const n=Number(field.value);
+ if(field.value.trim()===""||!Number.isInteger(n)||n<1||n>20){
+  $("gameStatus").textContent="Masukkan angka bulat dari 1 sampai 20.";return;
+ }
+ guessesLeft--;
+ $("guessCounter").textContent="Kesempatan tersisa: "+guessesLeft;
+ if(n===secretNumber){
+  numberLocked=true;correct++;games++;addXP(20);
+  $("gameStatus").textContent="🎉 BENAR! Angkanya "+secretNumber+". Kamu mendapat 20 XP!";
+  $("gameArea").insertAdjacentHTML("beforeend",'<div><button class="primary" onclick="startNumber()">Main Lagi 🚀</button></div>');
+ }else if(guessesLeft===0){
+  numberLocked=true;games++;updateStats();
+  $("gameStatus").textContent="Kesempatan habis! Angka rahasianya adalah "+secretNumber+". Coba lagi ya!";
+  $("gameArea").insertAdjacentHTML("beforeend",'<div><button class="primary" onclick="startNumber()">Coba Lagi ↻</button></div>');
+ }else{
+  $("gameStatus").textContent=(n<secretNumber?"📈 Terlalu kecil!":"📉 Terlalu besar!")+" Coba lagi, Jhulex!";
+ }
+ updateStats();
+}
+</script>
+</body>
+</html>
